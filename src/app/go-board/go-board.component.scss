@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  justify-content: center;
+  margin: 0;
+
+  --board-size: 19;
+  --cell-size: 42px;
+}
+
+.board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--cell-size);
+  background-color: #f0d9b5;
+  position: relative;
+}
+
+.grid-line-container {
+  display: grid;
+  grid: repeat(calc(var(--board-size) - 1), var(--cell-size)) / repeat(calc(var(--board-size) - 1), var(--cell-size));
+  background-color: #000;
+  gap: 1px;
+  border: 1px solid #000;
+}
+
+.grid-line-item {
+  display: flex;
+  background-color: #f0d9b5;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.grid-container {
+  display: grid;
+  grid: repeat(var(--board-size), var(--cell-size)) / repeat(var(--board-size), var(--cell-size));
+  background-color: transparent;
+  gap: 1px;
+  position: absolute;
+  top: calc(var(--cell-size) / 2);
+}
+
+.grid-item {
+  display: flex;
+  background-color: transparent;
+  font-size: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.star {
+  width: 6px;
+  height: 6px;
+  background-color: #000;
+  border-radius: 50%;
+}
+
+.stone {
+  width: 95%;
+  height: 95%;
+  border: 1px solid #000;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.white {
+  @extend .stone;
+  background-color: #fff;
+}
+
+.black {
+  @extend .stone;
+  background-color: #000;
+}
