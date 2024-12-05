@@ -1,0 +1,12 @@
+<div class="container">
+  <div class="board-container">
+    <div class="grid-line-container">
+      <div class="grid-line-item" *ngFor="let item of gridLines"></div>
+    </div>
+    <div class="grid-container">
+      <div class="grid-item" *ngFor="let cell of cells; let i = index" (click)="placeStone(i)">
+        <div [ngClass]="cell.value"></div>
+      </div>
+    </div>
+  </div>
+</div>
