@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { Player, Board, BoardSize } from './models/go-board.types';
+import { Board, BoardSize, Player } from './models/go-board.types';
 
-import go, { BLACK, WHITE, addMove, Coordinate, Move } from 'godash';
+import go, { addMove, BLACK, Coordinate, Move, WHITE } from 'godash';
 import { type Coordinate as CoordinateType } from 'godash/types/board';
 
 function toXO(row: Array<string | null>): string {
@@ -81,18 +81,16 @@ export class GoGameService {
     this.boardSubject.next(
       this.godashBoardSubject.getValue().toMap().flatMap(identity)
     );
-    console.log(
-      `${currentPlayer?.toUpperCase()} move at ${coordinate}\n\n${currentGoBoard
-        .toMap()
-        .map(toXO)
-        .join('\n')}`
-    );
     const diff: Immutable.Set<Immutable.List<CoordinateType>> =
       (previousGoBoard && go.difference(previousGoBoard, currentGoBoard)) || 0;
 
     this.addPrisoners(diff.size);
+
     console.log(
-      `Prisoners: ${this.blackPrisonersSubject.getValue()} for black, ${this.whitePrisonersSubject.getValue()} for white.`
+      `${currentPlayer?.toUpperCase()} move at ${coordinate}
+      \nPrisoners: ${this.blackPrisonersSubject.getValue()} for black, ${this.whitePrisonersSubject.getValue()} for white.
+      \n${currentGoBoard.toMap().map(toXO).join('\n')}
+      `
     );
     this.currentPlayerSubject.next(currentPlayer === BLACK ? WHITE : BLACK);
   }

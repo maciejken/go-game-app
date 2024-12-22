@@ -3,7 +3,12 @@
   justify-content: center;
   margin: 0;
 
-  --board-size: 19;
+  --board-size-9: 9;
+  --board-size-13: 13;
+  --board-size-19: 19;
+  --board-lines-9: 8;
+  --board-lines-13: 12;
+  --board-lines-19: 18;
   --cell-size: 42px;
 }
 
@@ -18,10 +23,33 @@
 
 .grid-line-container {
   display: grid;
-  grid: repeat(calc(var(--board-size) - 1), var(--cell-size)) / repeat(calc(var(--board-size) - 1), var(--cell-size));
   background-color: #000;
   gap: 1px;
   border: 1px solid #000;
+}
+
+.grid-line-container-9 {
+  @extend .grid-line-container;
+  grid: repeat(var(--board-lines-9), var(--cell-size)) / repeat(
+      var(--board-lines-9),
+      var(--cell-size)
+    );
+}
+
+.grid-line-container-13 {
+  @extend .grid-line-container;
+  grid: repeat(var(--board-lines-13), var(--cell-size)) / repeat(
+      var(--board-lines-13),
+      var(--cell-size)
+    );
+}
+
+.grid-line-container-19 {
+  @extend .grid-line-container;
+  grid: repeat(var(--board-lines-19), var(--cell-size)) / repeat(
+      var(--board-lines-19),
+      var(--cell-size)
+    );
 }
 
 .grid-line-item {
@@ -34,11 +62,34 @@
 
 .grid-container {
   display: grid;
-  grid: repeat(var(--board-size), var(--cell-size)) / repeat(var(--board-size), var(--cell-size));
   background-color: transparent;
   gap: 1px;
   position: absolute;
   top: calc(var(--cell-size) / 2);
+}
+
+.grid-container-9 {
+  @extend .grid-container;
+  grid: repeat(var(--board-size-9), var(--cell-size)) / repeat(
+      var(--board-size-9),
+      var(--cell-size)
+    );
+}
+
+.grid-container-13 {
+  @extend .grid-container;
+  grid: repeat(var(--board-size-13), var(--cell-size)) / repeat(
+      var(--board-size-13),
+      var(--cell-size)
+    );
+}
+
+.grid-container-19 {
+  @extend .grid-container;
+  grid: repeat(var(--board-size-19), var(--cell-size)) / repeat(
+      var(--board-size-19),
+      var(--cell-size)
+    );
 }
 
 .grid-item {

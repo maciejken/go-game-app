@@ -4,16 +4,23 @@
     <div class="prisoners white">{{whitePrisoners}}</div>
   </div> -->
   <div class="board">
-    <div class="grid-line-container">
+    <div class="grid-line-container-{{ boardSize$ | async }}">
       <div class="grid-line-item" *ngFor="let item of gridLines"></div>
     </div>
-    <div class="grid-container">
-      <div class="grid-item" *ngFor="let point of board$ | async; let i = index" (click)="placeStone(i)">
-        <div class="board-point" [ngClass]="{
+    <div class="grid-container-{{ boardSize$ | async }}">
+      <div
+        class="grid-item"
+        *ngFor="let point of board$ | async; let i = index"
+        (click)="placeStone(i)"
+      >
+        <div
+          class="board-point"
+          [ngClass]="{
           white: point === 'white',
           black: point === 'black',
           star: starPoints?.includes(i),
-        }"></div>
+        }"
+        ></div>
       </div>
     </div>
   </div>
