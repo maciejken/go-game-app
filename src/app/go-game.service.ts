@@ -26,7 +26,7 @@ export class GoGameService {
     new BehaviorSubject<BoardSize>(19);
 
   private godashBoardSubject: BehaviorSubject<any> = new BehaviorSubject(
-    new go.Board(19)
+    new go.Board(this.boardSizeSubject.getValue())
   );
 
   private boardSubject: BehaviorSubject<Board> = new BehaviorSubject<Board>(
