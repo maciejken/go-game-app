@@ -1,4 +1,4 @@
-.container {
+:host {
   display: flex;
   justify-content: center;
   margin: 0;
@@ -7,7 +7,7 @@
   --cell-size: 42px;
 }
 
-.board-container {
+.board {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -57,6 +57,9 @@
 }
 
 .stone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   width: 95%;
   height: 95%;
   border: 1px solid #000;
@@ -66,10 +69,24 @@
 
 .white {
   @extend .stone;
+  color: #000;
   background-color: #fff;
 }
 
 .black {
   @extend .stone;
+  color: #fff;
   background-color: #000;
+}
+
+.prisoner-count {
+  display: flex;
+  justify-content: space-between;
+  height: 50px;
+  margin: 4px 0 12px;
+}
+
+.prisoners {
+  width: 50px;
+  font-size: 18px;
 }

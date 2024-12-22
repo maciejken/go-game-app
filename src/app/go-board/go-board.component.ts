@@ -1,9 +1,20 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { Point } from '../models/go-board.types';
+import { Observable, Subscription } from 'rxjs';
 
-function isStarPoint(x: number, y: number): boolean {
-  const starSet = new Set([3, 9, 15]);
+import { Board, BoardSize } from '../models/go-board.types';
+import { GoGameService } from '../go-game.service';
+
+function isStarPoint(index: number, size: BoardSize): boolean {
+  let starSet: Set<number>;
+  if (size === 9) {
+    starSet = new Set([4]);
+  } else {
+    starSet = new Set([3, 9, 15]);
+  }
+
+  const x = index % size;
+  const y = Math.floor(index / size);
   return starSet.has(x) && starSet.has(y);
 }
 
@@ -14,47 +25,35 @@ function isStarPoint(x: number, y: number): boolean {
   imports: [CommonModule],
 })
 export class GoBoardComponent {
-  boardSize: number = 19;
-  cells: Point[] = [];
-  gridLines: null[];
-  board: string[][];
-  currentPlayer: string;
+  boardSize$: Observable<BoardSize> | undefined;
+  board$: Observable<Board> | undefined;
+  gridLines: null[] | undefined;
+  starPoints: number[] | undefined;
 
-  constructor() {
-    this.cells = Array(Math.pow(this.boardSize, 2))
-      .fill('')
-      .map((_, i) => {
-        const x = i % this.boardSize;
-        const y = Math.floor(i / this.boardSize);
-        const value = `empty${isStarPoint(x, y) ? ' star' : ''}`;
-        return {
-          x,
-          y,
-          value,
-        };
-      });
+  private subscriptions: Subscription = new Subscription();
 
-    this.gridLines = Array(Math.pow(this.boardSize - 1, 2)).fill('');
-    this.board = Array(this.boardSize)
-      .fill(null)
-      .map((_, i) =>
-        this.cells
-          .filter((cell) => cell.y === i)
-          .map((cell) => cell.value || '')
-      );
-    this.currentPlayer = 'black';
+  constructor(private goGameService: GoGameService) {}
+
+  ngOnInit(): void {
+    this.boardSize$ = this.goGameService.boardSize$;
+    this.board$ = this.goGameService.board$;
+
+    this.subscriptions.add(
+      this.boardSize$.subscribe((size: BoardSize) => {
+        this.gridLines = Array(Math.pow(size - 1, 2)).fill(null);
+        this.starPoints = Array.from(
+          { length: Math.pow(size, 2) },
+          (_, i) => i
+        ).filter((index) => isStarPoint(index, size));
+      })
+    );
   }
 
-  ngOnInit(): void {}
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
 
   placeStone(index: number): void {
-    const isValid = this.cells[index]?.value.includes('empty');
-    if (isValid) {
-      this.cells[index].value = this.cells[index].value.replace(
-        'empty',
-        this.currentPlayer
-      );
-      this.currentPlayer = this.currentPlayer === 'black' ? 'white' : 'black';
-    }
+    this.goGameService.placeStone(index);
   }
 }

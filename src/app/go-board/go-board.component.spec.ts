@@ -29,24 +29,25 @@ describe('GoBoardComponent', () => {
     cellElement.click();
     fixture.detectChanges();
 
-    expect(component.cells[cellIndex].value).toContain('black');
+    expect(component.board[cellIndex]).toBe('black');
   });
 
   it('should place a white stone on the second click', () => {
     const firstCellIndex = 0;
     const secondCellIndex = 1;
-    const firstCellElement =
-      fixture.nativeElement.querySelectorAll('.grid-item')[firstCellIndex];
-    const secondCellElement =
-      fixture.nativeElement.querySelectorAll('.grid-item')[secondCellIndex];
+
+    const board = fixture.nativeElement.querySelectorAll('.board-point');
+    const firstCellElement = board[firstCellIndex];
+    const secondCellElement = board[secondCellIndex];
 
     firstCellElement.click();
     fixture.detectChanges();
+
     secondCellElement.click();
     fixture.detectChanges();
 
-    expect(component.cells[firstCellIndex].value).toContain('black');
-    expect(component.cells[secondCellIndex].value).toContain('white');
+    expect(component.board[firstCellIndex]).toBe('black');
+    expect(component.board[secondCellIndex]).toBe('white');
   });
 
   it('should not place a stone on an occupied cell', () => {
@@ -59,6 +60,6 @@ describe('GoBoardComponent', () => {
     cellElement.click();
     fixture.detectChanges();
 
-    expect(component.cells[cellIndex].value).toBe('black');
+    expect(component.board[cellIndex]).toBe('black');
   });
 });

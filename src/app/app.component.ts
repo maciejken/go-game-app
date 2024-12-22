@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GoBoardComponent } from './go-board/go-board.component';
 import { RouterModule } from '@angular/router';
 
 @Component({

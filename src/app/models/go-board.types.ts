@@ -1,5 +1,7 @@
-export interface Point {
-  x: number;
-  y: number;
-  value: string;
-}
+import { Color } from 'godash/types/board';
+
+export type Player = Color;
+
+export type Board = Array<Player | null>;
+
+export type BoardSize = 9 | 13 | 19;
